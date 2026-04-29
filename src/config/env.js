@@ -22,7 +22,7 @@ function readEnv() {
   if (missing.length > 0 && import.meta.env.MODE !== 'test') {
     throw new Error(
       `[config/env] Missing required env vars: ${missing.join(', ')}. ` +
-        `Copy .env.local.example to .env.local and fill in the values.`,
+        `Copy .env.example to .env.local and fill in the values.`,
     );
   }
   return {

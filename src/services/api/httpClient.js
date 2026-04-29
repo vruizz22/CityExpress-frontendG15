@@ -51,20 +51,6 @@ export function setTokenProvider(provider) {
 }
 
 /**
- * @param {Record<string, string | number | boolean | null | undefined> | undefined} query
- */
-function buildQuery(query) {
-  if (!query) return '';
-  const params = new URLSearchParams();
-  for (const [key, value] of Object.entries(query)) {
-    if (value === undefined || value === null) continue;
-    params.append(key, String(value));
-  }
-  const qs = params.toString();
-  return qs ? `?${qs}` : '';
-}
-
-/**
  * Llamada HTTP genérica. Lanza `HttpError` para status >=400 o fallos de red.
  *
  * @template T
@@ -83,7 +69,14 @@ export async function request(path, options = {}) {
     signal: externalSignal,
   } = options;
 
-  const url = new URL(path, env.apiBaseUrl).toString() + buildQuery(query);
+  const base = env.apiBaseUrl.endsWith('/') ? env.apiBaseUrl : `${env.apiBaseUrl}/`;
+  const urlObj = new URL(path.replace(/^\//, ''), base);
+  if (query) {
+    for (const [key, value] of Object.entries(query)) {
+      if (value !== undefined && value !== null) urlObj.searchParams.append(key, String(value));
+    }
+  }
+  const url = urlObj.toString();
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);

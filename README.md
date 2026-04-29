@@ -135,7 +135,7 @@ cd CityExpress-frontendG15
 pnpm install
 
 # 3. Variables de entorno
-cp .env.local.example .env.local
+cp .env.example .env.local
 # editar .env.local con los valores de Auth0 y backend
 
 # 4. Levantar dev server
@@ -304,7 +304,7 @@ pnpm test              # watch mode
 pnpm test:coverage     # con reporte
 ```
 
-- **Coverage gate ≥ 75%** (configurado en `vitest.config.js` + CI).
+- **Coverage gate ≥ 75%** (configurado en el bloque `test` de `vite.config.js` + CI).
 - Convención: tests colocados junto al archivo (`Foo.test.jsx`) o en `__tests__/`.
 - Mocks de red con **MSW** para hooks que llaman al backend.
 
@@ -345,7 +345,7 @@ pnpm build
 aws s3api create-bucket \
   --bucket cityexpress-frontend-g15 \
   --region us-east-1 \
-  --create-bucket-configuration LocationConstraint=us-east-1
+  --region us-east-1
 
 # Bloquear acceso público — el acceso lo otorga CloudFront vía OAC
 aws s3api put-public-access-block \

@@ -203,17 +203,17 @@ e2e/                         # tests Playwright
 
 ## 6. Decisiones y tradeoffs
 
-| Decisión                            | Alternativa                     | Por qué la elegimos                                                                            |
-| ----------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------- |
-| React Router v6                     | TanStack Router                 | Madurez, comunidad, equipo G15 ya familiar; TanStack mejor para typesafety pero usamos JS puro |
-| Context + hooks (sin Redux/Zustand) | Zustand / Redux Toolkit         | Estado global mínimo en E1 (auth + datos por vista); abrir Zustand si crece                    |
-| fetch (httpClient.js)               | Fetch nativo                    | Interceptors first-class para Bearer y manejo 401                                              |
-| Vitest + RTL                        | Jest + RTL                      | Vitest comparte config con Vite, arranque más rápido                                           |
-| Playwright                          | Cypress                         | Menor flakiness, multi-browser nativo, mejor DX en CI                                          |
-| `@auth0/auth0-react`                | `oidc-client-ts` manual         | Oficial Auth0, ya maneja PKCE + token cache                                                    |
-| Tailwind CSS                        | CSS Modules / styled-components | Velocidad de prototipado en E1; revisable post-E1                                              |
-| S3 + CloudFront                     | Vercel / Netlify                | Requisito explícito del curso (RNF08)                                                          |
-| Nginx en Docker (multi-stage)       | Servir directo desde S3         | Doble vía: contenedor para dev/prod parity (RNF01) + S3 para distribución pública              |
+| Decisión                              | Alternativa                     | Por qué la elegimos                                                                                                |
+| ------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| React Router v6                       | TanStack Router                 | Madurez, comunidad, equipo G15 ya familiar; TanStack mejor para typesafety pero usamos JS puro                     |
+| Context + hooks (sin Redux/Zustand)   | Zustand / Redux Toolkit         | Estado global mínimo en E1 (auth + datos por vista); abrir Zustand si crece                                        |
+| Wrapper sobre fetch (`httpClient.js`) | Axios                           | Menos dependencias y API nativa; centralizamos Bearer/errores en nuestra capa, aunque sin interceptors first-class |
+| Vitest + RTL                          | Jest + RTL                      | Vitest comparte config con Vite, arranque más rápido                                                               |
+| Playwright                            | Cypress                         | Menor flakiness, multi-browser nativo, mejor DX en CI                                                              |
+| `@auth0/auth0-react`                  | `oidc-client-ts` manual         | Oficial Auth0, ya maneja PKCE + token cache                                                                        |
+| Tailwind CSS                          | CSS Modules / styled-components | Velocidad de prototipado en E1; revisable post-E1                                                                  |
+| S3 + CloudFront                       | Vercel / Netlify                | Requisito explícito del curso (RNF08)                                                                              |
+| Nginx en Docker (multi-stage)         | Servir directo desde S3         | Doble vía: contenedor para dev/prod parity (RNF01) + S3 para distribución pública                                  |
 
 ---
 

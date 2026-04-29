@@ -34,12 +34,12 @@ Cada día cierra con:
 | ----------------------------------------------------------- | ------------------- | -------------------------------------------------------- | ------------------------------------------------------- |
 | `npm create vite@latest . -- --template react` (JS)         | Tech Lead FE        | `package.json`, `vite.config.js`, `src/` mínimo          | `pnpm dev` levanta en :5173                             |
 | ESLint + Prettier + EditorConfig + `eslint-plugin-jsx-a11y` | Tech Lead FE        | `.eslintrc.cjs`, `.prettierrc`, `.editorconfig`          | `pnpm lint` pasa                                        |
-| Vitest + RTL + jsdom + MSW                                  | QA                  | `vitest.config.js`, primer test smoke `App.test.jsx`     | `pnpm test` pasa                                        |
+| Vitest + RTL + jsdom + MSW                                  | QA                  | `vite.config.js`, primer test smoke `App.test.jsx`       | `pnpm test` pasa                                        |
 | Husky + lint-staged + commitlint                            | DevOps              | `.husky/pre-commit`, `commitlint.config.cjs`             | Commit con error de lint o sin Conventional → bloqueado |
 | GitHub Actions CI (`ci.yml`)                                | DevOps              | Lint + test + build en cada PR                           | Workflow corre verde en PR de prueba                    |
 | Branch protection en `main`                                 | Owner repo (manual) | GitHub Settings → Branches                               | PR directo a main es bloqueado                          |
 | PR template + CODEOWNERS                                    | Tech Lead FE        | `.github/PULL_REQUEST_TEMPLATE.md`, `.github/CODEOWNERS` | PR usa template automáticamente                         |
-| AI log D0                                                   | Quien usó IA        | `docs/prompts/2026-04-28-c0-setup.md`                    | Existe + 4 secciones                                    |
+| AI log D0                                                   | Quien usó IA        | `docs/prompts/2026-04-29-d0-setup.md`                    | Existe + 4 secciones                                    |
 
 **RF/RNF cubiertos:** RNF-FE01, RNF-FE02, RNF-FE06, RNF-FE07.
 
@@ -51,7 +51,7 @@ Cada día cierra con:
 
 | Tarea                                                             | Owner        | Deliverable                                        |
 | ----------------------------------------------------------------- | ------------ | -------------------------------------------------- |
-| Tenant Auth0 + SPA Application + audience apuntando al API NestJS | Auth Lead    | `.env.local.example` con `VITE_AUTH0_*`            |
+| Tenant Auth0 + SPA Application + audience apuntando al API NestJS | Auth Lead    | `.env.example` con `VITE_AUTH0_*`                  |
 | `@auth0/auth0-react` integrado                                    | Auth Lead    | `src/providers/AuthProvider.jsx`                   |
 | `ProtectedRoute` + React Router v6                                | Tech Lead FE | `src/router/AppRouter.jsx`, `ProtectedRoute.jsx`   |
 | Layout base (Header con Login/Logout + Nav a /packages /routes)   | UI/UX        | `src/components/Layout/{Header,Footer,Layout}.jsx` |
