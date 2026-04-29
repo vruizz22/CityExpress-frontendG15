@@ -33,6 +33,7 @@ export default defineConfig({
         'e2e/',
         'src/setupTests.js',
         'src/main.jsx',
+        'src/config/env.js',
         'src/mocks/**',
         '**/*.config.js',
         '**/*.config.cjs',
