@@ -26,7 +26,7 @@ export default defineConfig([
   {
     files: ['**/*.test.{js,jsx}', 'src/setupTests.js', 'src/mocks/**'],
     languageOptions: {
-      globals: { ...globals.browser, ...globals.node, ...globals.jest },
+      globals: { ...globals.browser, ...globals.node, ...globals.jest, vi: 'readonly' },
     },
   },
   {
