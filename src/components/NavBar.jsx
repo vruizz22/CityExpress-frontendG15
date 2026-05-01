@@ -12,7 +12,7 @@ export default function Navbar(/* { user, onLogout } */) {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <h2>CityExpress</h2>
+        <p>CityExpress</p>
       </div>
       <Link to="/">Inicio</Link>
       <Link to="/packages">Listado de paquetes</Link>
