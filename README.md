@@ -413,3 +413,4 @@ Credenciales AWS via OIDC (recomendado) o secret `AWS_ACCESS_KEY_ID` / `AWS_SECR
 ## 14. Referencias
 
 - https://www.mclibre.org/consultar/htmlcss/html/html-tablas.html
+- https://auth0.com/docs/quickstart/spa/react/index

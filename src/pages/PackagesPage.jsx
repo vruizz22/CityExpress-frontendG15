@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import PackageTable from '../components/PackageTable';
 import { getPackages, deliverPackage } from '../services/api/packagesApi';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function PackagesPage() {
   const [packages, setPackages] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const { isAuthenticated, isLoading } = useAuth0();
 
   useEffect(() => {
     async function loadPackages() {
@@ -44,6 +46,13 @@ export default function PackagesPage() {
       setError('No se pudo entregar el paquete');
     }
   };
+  if (isLoading) {
+    return <p>Cargando sesión...</p>;
+  }
+  if (!isAuthenticated) {
+    return <p>Inicia sesión para ver el listado de paquetes</p>;
+  }
+
   if (loading) {
     return <p>Cargando paquetes...</p>;
   }
