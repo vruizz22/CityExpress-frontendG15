@@ -1,23 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PackageTable from '../components/PackageTable';
-import { mockPackages } from '../mocks/mockPackages';
+import { getPackages, deliverPackage } from '../services/api/packagesApi';
 
 export default function PackagesPage() {
-  const [packages, setPackages] = useState(mockPackages);
-  const handleDeliver = (pkIdDelivered) => {
-    setPackages((currentPackages) =>
-      currentPackages.map((pk) =>
-        pk.id === pkIdDelivered
-          ? {
-              ...pk,
-              status: 'delivered',
-              lastAction: 'delivered',
-              canDeliver: false,
-            }
-          : pk,
-      ),
-    );
+  const [packages, setPackages] = useState([]);
+  const [loading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function loadPackages() {
+      try {
+        const data = await getPackages();
+        setPackages(data);
+        setIsLoading(true);
+        setError('');
+      } catch (err) {
+        setError('No se pudieron cargar los paquetes.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadPackages();
+  }, []);
+
+  const handleDeliver = async (pkIdDelivered) => {
+    try {
+      await deliverPackage(pkIdDelivered);
+      setPackages((prev) =>
+        prev.map((pk) =>
+          pk.id === pkIdDelivered
+            ? {
+                ...pk,
+                status: 'delivered',
+                lastAction: 'delivered',
+                canDeliver: false,
+              }
+            : pk,
+        ),
+      );
+    } catch (err) {
+      setError('No se pudo entregar el paquete');
+    }
   };
+  if (loading) {
+    return <p>Cargando paquetes...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
+  if (packages.length === 0) {
+    return <p>No hay paquetes recibidos</p>;
+  }
 
   return (
     <main>
