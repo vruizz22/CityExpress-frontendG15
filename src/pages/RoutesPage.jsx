@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import RoutesTable from '../components/RoutesTable';
 import { mockRoutes } from '../mocks/mockRoutes';
 

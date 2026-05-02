@@ -1,9 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 export default function Navbar(/* { user, onLogout } */) {
-  const navigate = useNavigate();
-
   /* const handleLogout = () => {
     onLogout();
     navigate('/');

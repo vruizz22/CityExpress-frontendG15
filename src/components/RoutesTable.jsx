@@ -13,7 +13,7 @@ export default function RoutesTable({ routes }) {
           <tr key={route.code}>
             <td className="p">{route.code}</td>
             <td className="p">{route.name}</td>
-            <td className="p">{route.enabled ? 'Habilidata' : 'Deshabilitada'}</td>
+            <td className="p">{route.enabled ? 'Habilitada' : 'Deshabilitada'}</td>
           </tr>
         ))}
       </tbody>
