@@ -43,6 +43,7 @@
     - [12.5 Invalidación post-deploy](#125-invalidación-post-deploy)
     - [12.6 GitHub Actions (resumen del workflow propuesto)](#126-github-actions-resumen-del-workflow-propuesto)
   - [13. Licencia](#13-licencia)
+  - [14. Referencias](#14-referencias)
 
 ---
 
@@ -408,3 +409,7 @@ Credenciales AWS via OIDC (recomendado) o secret `AWS_ACCESS_KEY_ID` / `AWS_SECR
 ## 13. Licencia
 
 [MIT](./LICENSE) — © 2026 CityExpress Frontend G15.
+
+## 14. Referencias
+
+- https://www.mclibre.org/consultar/htmlcss/html/html-tablas.html
