@@ -15,6 +15,7 @@ export default function PackagesPage() {
         setIsLoading(true);
         setError('');
       } catch (err) {
+        console.log(err);
         setError('No se pudieron cargar los paquetes.');
       } finally {
         setIsLoading(false);
@@ -39,6 +40,7 @@ export default function PackagesPage() {
         ),
       );
     } catch (err) {
+      console.log(err);
       setError('No se pudo entregar el paquete');
     }
   };

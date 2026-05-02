@@ -15,6 +15,7 @@ export default function RoutesPage() {
         setIsLoading(false);
         setError('');
       } catch (err) {
+        console.log(err);
         setError('No se pudieron cargar las rutas');
       } finally {
         setIsLoading(false);
