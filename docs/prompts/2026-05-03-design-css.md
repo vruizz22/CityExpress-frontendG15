@@ -1,25 +1,23 @@
-@import 'tailwindcss';
+# Session: 2026-05-03 — E1 design-css
 
-@theme {
-  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, Consolas, monospace;
+Se utilizó el modelo a través de chat para la elaboaración de un archivo css para el estilo general del fronend. Los archivos mencionados en cada promts fueron adjuntados al momento de realizar la consulta.
 
-  /* CityExpress brand (placeholder — refinar con Figma) */
-  --color-brand-50: oklch(97% 0.02 280);
-  --color-brand-500: oklch(60% 0.22 280);
-  --color-brand-600: oklch(54% 0.22 280);
-  --color-brand-700: oklch(48% 0.22 280);
-}
+## Participantes
 
-html,
-body,
-#root {
-  height: 100%;
-}
+- Usuario: OrianaCrescio
+- Modelo: OpenAI GPT5.3
 
-body {
-  @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
-}
+## Promt
+
+Quiero un frontend con un mismo estilo (misma tipografia, botones de color verde y que el resto de la pagina tenga tonos azules, las palabas y titulos en negro y que las tablas y otros textos esten centrados), dame un css para index
+
+### Respuesta
+
+Te dejo un CSS unificado para que todos tus archivos mantengan el mismo estilo: misma tipografía, botones verdes, fondo azul, títulos negros y tablas centradas. Vi que tus tablas usan `<table>` directamente y celdas con `className="p"`, y que el `NavBar` ya importa `NavBar.css`.
+
+### `src/index.css` o `src/App.css`
+
+```css
 /* Estilo global */
 
 * {
@@ -168,3 +166,12 @@ tbody tr:hover {
     max-width: 260px;
   }
 }
+```
+
+### Imports recomendados
+
+En `main.jsx` o `App.jsx`, asegúrate de tener:
+
+```jsx
+import './index.css';
+```
