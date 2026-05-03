@@ -1,13 +1,19 @@
-import { mockPackages } from '../../mocks/mockPackages';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function getPackages() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(mockPackages), 300);
-  });
+  const rta = await fetch(`${API_BASE_URL}/packages`);
+  if (!rta.ok) {
+    throw new Error('Error al obtener paquetes');
+  }
+  return rta.json();
 }
 
 export async function deliverPackage(packageId) {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ success: true, packageId }), 300);
+  const rta = await fetch(`${API_BASE_URL}/packages/${packageId}/deliver`, {
+    method: 'POST',
   });
+  if (!rta.ok) {
+    throw new Error('Error al entregar paquete');
+  }
+  return rta.json();
 }
