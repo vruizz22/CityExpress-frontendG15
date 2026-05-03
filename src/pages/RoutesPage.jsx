@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import RoutesTable from '../components/RoutesTable';
 import { getRoutes } from '../services/api/routesApi';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function RoutesPage() {
   const [routes, setRoutes] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const { isAuthenticated, isLoading } = useAuth0();
 
   useEffect(() => {
     async function loadRoutes() {
@@ -23,6 +25,13 @@ export default function RoutesPage() {
     }
     loadRoutes();
   }, []);
+
+  if (isLoading) {
+    return <p>Cargando sesión...</p>;
+  }
+  if (!isAuthenticated) {
+    return <p>Inicia sesión para ver el listado de paquetes</p>;
+  }
 
   if (loading) {
     return <p>Cargando rutas...</p>;
