@@ -176,12 +176,12 @@ CityExpress-frontendG15/
 │   ├── main.jsx                 # entry
 │   ├── App.jsx
 │   ├── router/                  # AppRouter, ProtectedRoute
-│   ├── providers/               # AuthProvider (Auth0)
+│   ├── auth/                    # AuthProvider (Auth0)
 │   ├── pages/                   # PackagesPage, RoutesPage, ...
-│   ├── features/                # packages/, routes/, auth/
+│   ├── router/                  # AppRouter.jsx
 │   ├── components/              # Layout, feedback (Toast, Spinner...)
 │   ├── services/api/            # httpClient, packagesApi, routesApi
-│   ├── hooks/
+│   ├── mocks/                   # PackagesMocks, RoutesMocks
 │   ├── utils/
 │   └── config/                  # validación de env
 ├── e2e/                         # Playwright specs
