@@ -1,19 +1,9 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { http } from './httpClient';
 
 export async function getPackages() {
-  const rta = await fetch(`${API_BASE_URL}/packages`);
-  if (!rta.ok) {
-    throw new Error('Error al obtener paquetes');
-  }
-  return rta.json();
+  return http.get('/packages');
 }
 
 export async function deliverPackage(packageId) {
-  const rta = await fetch(`${API_BASE_URL}/packages/${packageId}/deliver`, {
-    method: 'POST',
-  });
-  if (!rta.ok) {
-    throw new Error('Error al entregar paquete');
-  }
-  return rta.json();
+  return http.post(`/packages/${packageId}/deliver`);
 }
