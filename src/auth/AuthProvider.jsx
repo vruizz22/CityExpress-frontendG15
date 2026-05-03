@@ -1,4 +1,17 @@
-import { Auth0Provider } from '@auth0/auth0-react';
+import { useEffect } from 'react';
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { setTokenProvider } from '@/services/api/httpClient';
+
+function TokenWiring({ children }) {
+  const { getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    setTokenProvider(getAccessTokenSilently);
+    return () => setTokenProvider(null);
+  }, [getAccessTokenSilently]);
+
+  return children;
+}
 
 export default function AppAuthProvider({ children }) {
   return (
@@ -10,7 +23,7 @@ export default function AppAuthProvider({ children }) {
         audience: import.meta.env.VITE_AUTH0_AUDIENCE,
       }}
     >
-      {children}
+      <TokenWiring>{children}</TokenWiring>
     </Auth0Provider>
   );
 }
