@@ -10,11 +10,13 @@ export default function PackagesPage() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated) return;
+
     async function loadPackages() {
       try {
-        const data = await getPackages();
-        setPackages(data);
-        setIsLoading(true);
+        const response = await getPackages();
+        setPackages(response.data ?? []);
+        setIsLoading(false);
         setError('');
       } catch (err) {
         console.log(err);
@@ -24,7 +26,7 @@ export default function PackagesPage() {
       }
     }
     loadPackages();
-  }, []);
+  }, [isLoading, isAuthenticated]);
 
   const handleDeliver = async (pkIdDelivered) => {
     try {
