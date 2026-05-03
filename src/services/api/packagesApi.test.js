@@ -1,18 +1,35 @@
-import { describe, expect, it } from 'vitest';
-import { getPackages, deliverPackage } from './packagesApi';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { deliverPackage, getPackages } from './packagesApi';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe('packagesApi', () => {
-  it('returns mock packages', async () => {
-    const packages = await getPackages();
+  it('gets packages from API', async () => {
+    const packages = [{ id: 'pkg-001', canDeliver: true }];
 
-    expect(packages.length).toBeGreaterThan(0);
-    expect(packages[0]).toHaveProperty('id');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => packages,
+      }),
+    );
+
+    await expect(getPackages()).resolves.toEqual(packages);
   });
 
   it('delivers package', async () => {
-    const result = await deliverPackage('pkg-001');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: true, packageId: 'pkg-001' }),
+      }),
+    );
 
-    expect(result).toEqual({
+    await expect(deliverPackage('pkg-001')).resolves.toEqual({
       success: true,
       packageId: 'pkg-001',
     });

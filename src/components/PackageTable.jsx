@@ -30,9 +30,9 @@ export default function PackageTable({ packages, onDeliver }) {
             <td className="p">{pk.maxHops}</td>
             <td className="p">{new Date(pk.createdAt).toLocaleDateString()}</td>
             <td className="p">{new Date(pk.deliverNotBefore).toLocaleDateString()}</td>
-            <td className="p">{states[pk.status] ?? pk.status}</td>
+            <td className="p">{states[pk.lastAction] ?? pk.lastAction}</td>
             <td className="p">
-              {pk.canDeliver && pk.status !== 'delivered' ? (
+              {pk.canDeliver && pk.lastAction !== 'delivered' ? (
                 <button onClick={() => onDeliver(pk.id)}>Entregar</button>
               ) : (
                 <span className="p">—</span>

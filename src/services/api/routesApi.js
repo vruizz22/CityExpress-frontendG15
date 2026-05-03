@@ -1,7 +1,9 @@
-import { mockRoutes } from '../../mocks/mockRoutes';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function getRoutes() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(mockRoutes), 300);
-  });
+  const rta = await fetch(`${API_BASE_URL}/routes`);
+  if (!rta.ok) {
+    throw new Error('Error al obtener rutas');
+  }
+  return rta.json();
 }

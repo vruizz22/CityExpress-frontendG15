@@ -1,12 +1,22 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { getRoutes } from './routesApi';
 
-describe('routesApi', () => {
-  it('returns mock routes', async () => {
-    const routes = await getRoutes();
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
-    expect(routes.length).toBeGreaterThan(0);
-    expect(routes[0]).toHaveProperty('code');
-    expect(routes[0]).toHaveProperty('enabled');
+describe('routesApi', () => {
+  it('gets routes from API', async () => {
+    const routes = [{ code: 'RNC', name: 'Rancagua', enabled: true }];
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => routes,
+      }),
+    );
+
+    await expect(getRoutes()).resolves.toEqual(routes);
   });
 });
