@@ -178,7 +178,6 @@ CityExpress-frontendG15/
 │   ├── router/                  # AppRouter, ProtectedRoute
 │   ├── auth/                    # AuthProvider (Auth0)
 │   ├── pages/                   # PackagesPage, RoutesPage, ...
-│   ├── router/                  # AppRouter.jsx
 │   ├── components/              # Layout, feedback (Toast, Spinner...)
 │   ├── services/api/            # httpClient, packagesApi, routesApi
 │   ├── mocks/                   # PackagesMocks, RoutesMocks
