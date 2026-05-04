@@ -43,6 +43,7 @@
     - [12.5 Invalidación post-deploy](#125-invalidación-post-deploy)
     - [12.6 GitHub Actions (resumen del workflow propuesto)](#126-github-actions-resumen-del-workflow-propuesto)
   - [13. Licencia](#13-licencia)
+  - [14. Referencias](#14-referencias)
 
 ---
 
@@ -175,12 +176,11 @@ CityExpress-frontendG15/
 │   ├── main.jsx                 # entry
 │   ├── App.jsx
 │   ├── router/                  # AppRouter, ProtectedRoute
-│   ├── providers/               # AuthProvider (Auth0)
+│   ├── auth/                    # AuthProvider (Auth0)
 │   ├── pages/                   # PackagesPage, RoutesPage, ...
-│   ├── features/                # packages/, routes/, auth/
 │   ├── components/              # Layout, feedback (Toast, Spinner...)
 │   ├── services/api/            # httpClient, packagesApi, routesApi
-│   ├── hooks/
+│   ├── mocks/                   # PackagesMocks, RoutesMocks
 │   ├── utils/
 │   └── config/                  # validación de env
 ├── e2e/                         # Playwright specs
@@ -408,3 +408,8 @@ Credenciales AWS via OIDC (recomendado) o secret `AWS_ACCESS_KEY_ID` / `AWS_SECR
 ## 13. Licencia
 
 [MIT](./LICENSE) — © 2026 CityExpress Frontend G15.
+
+## 14. Referencias
+
+- https://www.mclibre.org/consultar/htmlcss/html/html-tablas.html
+- https://auth0.com/docs/quickstart/spa/react/index

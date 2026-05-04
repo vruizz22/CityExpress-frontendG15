@@ -1,28 +1,29 @@
-@import 'tailwindcss';
+# Session: 2026-05-03 — E1 design-css
 
-@theme {
-  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, Consolas, monospace;
+Se utilizó el modelo a través de chat para la elaboaración de un archivo css para el estilo general del fronend. Los archivos mencionados en cada promts fueron adjuntados al momento de realizar la consulta.
 
-  /* CityExpress brand */
-  --color-brand-50: oklch(97% 0.02 280);
-  --color-brand-500: oklch(60% 0.22 280);
-  --color-brand-600: oklch(54% 0.22 280);
-  --color-brand-700: oklch(48% 0.22 280);
+## Participantes
 
-  /* NavBar palette */
-  --color-wine: #6d1f6e;
-  --color-magenta: #9c1f8a;
-  --color-fuchsia: #c026d3;
-  --color-gold: #f59e0b;
-  --color-text: #ffffff;
-  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
+- Usuario: OrianaCrescio
+- Modelo: OpenAI GPT5.3
 
-html,
-body,
-#root {
-  height: 100%;
+## Promt
+
+Quiero un frontend con un mismo estilo (misma tipografia, botones de color verde y que el resto de la pagina tenga tonos azules, las palabas y titulos en negro y que las tablas y otros textos esten centrados), dame un css para index
+
+### Respuesta
+
+Te dejo un CSS unificado para que todos tus archivos mantengan el mismo estilo: misma tipografía, botones verdes, fondo azul, títulos negros y tablas centradas. Vi que tus tablas usan `<table>` directamente y celdas con `className="p"`, y que el `NavBar` ya importa `NavBar.css`.
+
+### `src/index.css` o `src/App.css`
+
+```css
+/* Estilo global */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -30,8 +31,6 @@ body {
   background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
   color: #000000;
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Contenedor principal de páginas */
@@ -44,13 +43,6 @@ main {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(30, 64, 175, 0.18);
   text-align: center;
-}
-
-/* Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 /* Títulos */
@@ -66,6 +58,7 @@ h4 {
 h1 {
   font-size: 2.3rem;
 }
+
 h4 {
   font-weight: 500;
   font-size: 1.1rem;
@@ -110,6 +103,7 @@ button:hover {
   background-color: #16a34a;
   transform: translateY(-2px);
 }
+
 button:active {
   background-color: #15803d;
   transform: translateY(0);
@@ -130,12 +124,14 @@ table {
 thead {
   background-color: #1d4ed8;
 }
+
 th {
   color: #ffffff;
   font-weight: 700;
   padding: 14px;
   text-align: center;
 }
+
 td {
   color: #000000;
   padding: 12px;
@@ -146,6 +142,7 @@ td {
 tbody tr:nth-child(even) {
   background-color: #eff6ff;
 }
+
 tbody tr:hover {
   background-color: #dbeafe;
 }
@@ -156,14 +153,25 @@ tbody tr:hover {
     width: 95%;
     padding: 20px;
   }
+
   table {
     font-size: 0.85rem;
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
+
   button {
     width: 100%;
     max-width: 260px;
   }
 }
+```
+
+### Imports recomendados
+
+En `main.jsx` o `App.jsx`, asegúrate de tener:
+
+```jsx
+import './index.css';
+```
