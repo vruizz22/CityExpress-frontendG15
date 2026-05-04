@@ -10,10 +10,12 @@ export default function RoutesPage() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated) return;
+
     async function loadRoutes() {
       try {
-        const data = await getRoutes();
-        setRoutes(data);
+        const response = await getRoutes();
+        setRoutes(response.data ?? []);
         setIsLoading(false);
         setError('');
       } catch (err) {
@@ -24,7 +26,7 @@ export default function RoutesPage() {
       }
     }
     loadRoutes();
-  }, []);
+  }, [isLoading, isAuthenticated]);
 
   if (isLoading) {
     return <p>Cargando sesión...</p>;
