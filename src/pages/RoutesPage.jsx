@@ -32,7 +32,7 @@ export default function RoutesPage() {
     return <p>Cargando sesión...</p>;
   }
   if (!isAuthenticated) {
-    return <p>Inicia sesión para ver el listado de paquetes</p>;
+    return <p>Inicia sesión para ver el listado de rutas</p>;
   }
 
   if (loading) {
