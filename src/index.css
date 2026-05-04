@@ -54,17 +54,27 @@ main {
 }
 
 /* Títulos */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: #000000;
   text-align: center;
   margin-bottom: 18px;
 }
 
-h1 { font-size: 2.3rem; }
-h4 { font-weight: 500; font-size: 1.1rem; }
+h1 {
+  font-size: 2.3rem;
+}
+h4 {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
 
 /* Textos */
-p, span, .p {
+p,
+span,
+.p {
   color: #000000;
   text-align: center;
 }
@@ -76,7 +86,9 @@ a {
   font-weight: 600;
 }
 
-a:hover { color: #14532d; }
+a:hover {
+  color: #14532d;
+}
 
 /* Botones verdes */
 button {
@@ -89,11 +101,19 @@ button {
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-button:hover { background-color: #16a34a; transform: translateY(-2px); }
-button:active { background-color: #15803d; transform: translateY(0); }
+button:hover {
+  background-color: #16a34a;
+  transform: translateY(-2px);
+}
+button:active {
+  background-color: #15803d;
+  transform: translateY(0);
+}
 
 /* Tablas */
 table {
@@ -107,16 +127,43 @@ table {
   text-align: center;
 }
 
-thead { background-color: #1d4ed8; }
-th { color: #ffffff; font-weight: 700; padding: 14px; text-align: center; }
-td { color: #000000; padding: 12px; border-bottom: 1px solid #bfdbfe; text-align: center; }
+thead {
+  background-color: #1d4ed8;
+}
+th {
+  color: #ffffff;
+  font-weight: 700;
+  padding: 14px;
+  text-align: center;
+}
+td {
+  color: #000000;
+  padding: 12px;
+  border-bottom: 1px solid #bfdbfe;
+  text-align: center;
+}
 
-tbody tr:nth-child(even) { background-color: #eff6ff; }
-tbody tr:hover { background-color: #dbeafe; }
+tbody tr:nth-child(even) {
+  background-color: #eff6ff;
+}
+tbody tr:hover {
+  background-color: #dbeafe;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
-  main { width: 95%; padding: 20px; }
-  table { font-size: 0.85rem; display: block; overflow-x: auto; white-space: nowrap; }
-  button { width: 100%; max-width: 260px; }
+  main {
+    width: 95%;
+    padding: 20px;
+  }
+  table {
+    font-size: 0.85rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  button {
+    width: 100%;
+    max-width: 260px;
+  }
 }
