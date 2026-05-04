@@ -13,7 +13,7 @@ export default function PackageTable({ packages, onDeliver }) {
         <tr>
           <th className="p">Identificador</th>
           <th className="p">Ciudad de origen</th>
-          <th className="p">Ciudad de detino</th>
+          <th className="p">Ciudad de destino</th>
           <th className="p">Max hops</th>
           <th className="p">Fecha de creación</th>
           <th className="p">Fecha mínima de entrega</th>
