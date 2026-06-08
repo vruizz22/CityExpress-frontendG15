@@ -1,25 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { commitPayment } from '../services/api/paymentService';
-
-function formatCurrency(value) {
-  if (value === undefined || value === null) return 'No disponible';
-
-  return new Intl.NumberFormat('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatDate(value) {
-  if (!value) return 'No disponible';
-
-  return new Intl.DateTimeFormat('es-CL', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(new Date(value));
-}
+import { formatCurrency, formatDate } from '../utils/formatters';
 
 function getResultTitle(result) {
   if (!result) return 'Procesando pago';
