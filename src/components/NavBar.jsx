@@ -3,22 +3,39 @@ import './NavBar.css';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import { useAuth0 } from '@auth0/auth0-react';
+import { isAdminUser } from '../auth/authRoles';
 
-export default function Navbar(/* { user, onLogout } */) {
+export default function Navbar() {
   const { isAuthenticated, isLoading, user } = useAuth0();
-  /* const handleLogout = () => {
-    onLogout();
-    navigate('/');
-  }; */
+
+  const isAdmin = isAdminUser(user);
 
   return (
     <nav className="navbar">
       <div className="navbar-brand">
         <p>CityExpress</p>
       </div>
+
       <Link to="/">Inicio</Link>
-      <Link to="/packages">Listado de paquetes</Link>
-      <Link to="/routes">Listado de rutas</Link>
+
+      {isAuthenticated && (
+        <>
+          <Link to="/create-shipment">Crear envío</Link>
+          {isAdmin ? (
+            <Link to="/my-shipments">Todos los envíos</Link>
+          ) : (
+            <Link to="/my-shipments">Mis envíos</Link>
+          )}
+        </>
+      )}
+
+      {isAuthenticated && isAdmin && (
+        <>
+          <Link to="/packages">Listado de paquetes</Link>
+          <Link to="/routes">Listado de rutas</Link>
+        </>
+      )}
+
       {isLoading ? (
         <span>Cargando sesión...</span>
       ) : isAuthenticated ? (
