@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { commitPayment } from '../services/api/paymentService';
 import { formatCurrency, formatDate } from '../utils/formatters';
@@ -31,12 +31,17 @@ function getResultBadgeClass(result) {
 }
 
 export default function PaymentReturnPage() {
+  const didCommitRef = useRef(false);
+
   const [result, setResult] = useState(null);
   const [manualMessage, setManualMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (didCommitRef.current) return;
+    didCommitRef.current = true;
+
     async function handlePaymentReturn() {
       try {
         setLoading(true);
