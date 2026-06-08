@@ -74,6 +74,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
+      "browser-tabs-lock",
       "esbuild",
       "msw"
     ]
