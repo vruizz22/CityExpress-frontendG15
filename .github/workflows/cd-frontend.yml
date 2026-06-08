@@ -1,0 +1,56 @@
+name: CD Frontend
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: cd-frontend
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build → S3 → CloudFront
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      id-token: write # OIDC con AWS
+      contents: read
+    env:
+      AWS_REGION: us-east-1
+      S3_BUCKET: cityexpress-frontend-andresitowan
+      CLOUDFRONT_DISTRIBUTION_ID: EYMIU0TNOQ7F9
+      VITE_API_BASE_URL: https://api.andresitowan.com
+      VITE_AUTH0_DOMAIN: frontendg15cityexpress.us.auth0.com
+      VITE_AUTH0_CLIENT_ID: sb1CnASsgLO1tOpYWHMgrqA8ADLOsnK6
+      VITE_AUTH0_AUDIENCE: https://api.andresitowan.com
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync to S3
+        run: aws s3 sync dist/ "s3://$S3_BUCKET/" --delete
+
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" --paths '/*'
