@@ -1,9 +1,11 @@
-import { http } from './httpClient';
+const JOBS_API_URL = import.meta.env.VITE_JOBS_API_URL;
 
-const HEARTBEAT_URL = 'https://api.andresitowan.com/heartbeat';
+export async function getWorkersHeartbeat() {
+  const response = await fetch(`${JOBS_API_URL}/heartbeat`);
 
-export function getWorkersHeartbeat() {
-  return http.get(HEARTBEAT_URL, {
-    auth: false,
-  });
+  if (!response.ok) {
+    return { jobsService: false };
+  }
+
+  return response.json();
 }
