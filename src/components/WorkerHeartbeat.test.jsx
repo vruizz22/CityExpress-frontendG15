@@ -20,12 +20,12 @@ describe('WorkerHeartbeat', () => {
     expect(screen.getByText(/verificando servicio de workers/i)).toBeInTheDocument();
   });
 
-  it('muestra workers arriba cuando jobsService es true', async () => {
+  it('muestra workers operativos cuando jobsService es true', async () => {
     getWorkersHeartbeat.mockResolvedValue({ jobsService: true });
 
     render(<WorkerHeartbeat />);
 
-    expect(await screen.findByText(/workers arriba/i)).toBeInTheDocument();
+    expect(await screen.findByText(/workers operativos/i)).toBeInTheDocument();
     expect(screen.getByText(/está operativo/i)).toBeInTheDocument();
   });
 
