@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createQuote, createShipment, getRoutes } from '../services/api/shipmentService';
 import { startPayment } from '../services/api/paymentService';
 import { redirectToWebpay } from '../utils/webpayRedirect';
+import { formatCurrency } from '../utils/formatters';
 
 const INITIAL_FORM = {
   destinationId: '',
@@ -28,16 +29,6 @@ function getCityCode(city) {
 
 function getCityName(city) {
   return city.name || city.destinationName || city.cityName || getCityCode(city);
-}
-
-function formatCurrency(value) {
-  if (value === undefined || value === null) return 'No disponible';
-
-  return new Intl.NumberFormat('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-    maximumFractionDigits: 0,
-  }).format(value);
 }
 
 function formatDateTimeForApi(value) {
