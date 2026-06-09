@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { createQuote, createShipment, getRoutes } from '../services/api/shipmentService';
 import { startPayment } from '../services/api/paymentService';
 import { redirectToWebpay } from '../utils/webpayRedirect';
@@ -41,6 +42,8 @@ function formatDateTimeForApi(value) {
 }
 
 export default function CreateShipmentPage() {
+  const { isAuthenticated, isLoading } = useAuth0();
+
   const [routes, setRoutes] = useState([]);
   const [form, setForm] = useState(INITIAL_FORM);
   const [quote, setQuote] = useState(null);
@@ -54,6 +57,8 @@ export default function CreateShipmentPage() {
   const [loadingPayment, setLoadingPayment] = useState(false);
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated) return;
+
     async function loadRoutes() {
       try {
         setLoadingRoutes(true);
@@ -69,7 +74,7 @@ export default function CreateShipmentPage() {
     }
 
     loadRoutes();
-  }, []);
+  }, [isLoading, isAuthenticated]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -231,10 +236,10 @@ export default function CreateShipmentPage() {
             className="form-select"
             value={form.destinationId}
             onChange={handleChange}
-            disabled={loadingRoutes}
+            disabled={isLoading || loadingRoutes}
           >
             <option value="">
-              {loadingRoutes ? 'Cargando ciudades...' : 'Selecciona una ciudad'}
+              {isLoading || loadingRoutes ? 'Cargando ciudades...' : 'Selecciona una ciudad'}
             </option>
 
             {routes.map((city) => {

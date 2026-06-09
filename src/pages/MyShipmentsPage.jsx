@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { getShipments } from '../services/api/shipmentService';
 import { Link } from 'react-router-dom';
 import { formatCurrency, formatDate } from '../utils/formatters';
@@ -10,6 +11,8 @@ import {
 } from '../utils/statusLabels';
 
 export default function MyShipmentsPage() {
+  const { isAuthenticated, isLoading } = useAuth0();
+
   const [shipments, setShipments] = useState([]);
   const [meta, setMeta] = useState({
     total: 0,
@@ -23,6 +26,8 @@ export default function MyShipmentsPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated) return;
+
     async function loadShipments() {
       try {
         setLoading(true);
@@ -47,7 +52,7 @@ export default function MyShipmentsPage() {
     }
 
     loadShipments();
-  }, [page]);
+  }, [isLoading, isAuthenticated, page]);
 
   function handlePreviousPage() {
     setPage((currentPage) => Math.max(currentPage - 1, 1));
@@ -55,6 +60,24 @@ export default function MyShipmentsPage() {
 
   function handleNextPage() {
     setPage((currentPage) => Math.min(currentPage + 1, meta.totalPages || 1));
+  }
+
+  if (isLoading) {
+    return (
+      <main>
+        <h1>Mis envíos</h1>
+        <p className="loading-box">Cargando sesión...</p>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <main>
+        <h1>Mis envíos</h1>
+        <p className="error-message">Debes iniciar sesión para ver tus envíos.</p>
+      </main>
+    );
   }
 
   return (

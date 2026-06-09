@@ -4,6 +4,16 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ShipmentDetailPage from './ShipmentDetailPage';
 import { getShipmentById } from '../services/api/shipmentService';
 
+vi.mock('@auth0/auth0-react', () => ({
+  useAuth0: () => ({
+    isAuthenticated: true,
+    isLoading: false,
+    user: {
+      email: 'test@test.com',
+    },
+  }),
+}));
+
 vi.mock('../services/api/shipmentService', () => ({
   getShipmentById: vi.fn(),
 }));
