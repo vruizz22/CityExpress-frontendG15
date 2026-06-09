@@ -4,6 +4,16 @@ import { MemoryRouter } from 'react-router-dom';
 import PaymentReturnPage from './PaymentReturnPage';
 import { commitPayment } from '../services/api/paymentService';
 
+vi.mock('@auth0/auth0-react', () => ({
+  useAuth0: () => ({
+    isAuthenticated: true,
+    isLoading: false,
+    user: {
+      email: 'test@test.com',
+    },
+  }),
+}));
+
 vi.mock('../services/api/paymentService', () => ({
   commitPayment: vi.fn(),
 }));

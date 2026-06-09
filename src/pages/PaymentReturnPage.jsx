@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import { commitPayment } from '../services/api/paymentService';
 import { formatCurrency, formatDate } from '../utils/formatters';
@@ -31,6 +32,7 @@ function getResultBadgeClass(result) {
 }
 
 export default function PaymentReturnPage() {
+  const { isAuthenticated, isLoading } = useAuth0();
   const didCommitRef = useRef(false);
 
   const [result, setResult] = useState(null);
@@ -39,6 +41,8 @@ export default function PaymentReturnPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated) return;
+
     if (didCommitRef.current) return;
     didCommitRef.current = true;
 
@@ -82,7 +86,34 @@ export default function PaymentReturnPage() {
     }
 
     handlePaymentReturn();
-  }, []);
+  }, [isLoading, isAuthenticated]);
+
+  if (isLoading) {
+    return (
+      <main>
+        <h1>Confirmando pago</h1>
+        <p className="loading-box">Cargando sesión...</p>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <main>
+        <h1>Error al confirmar pago</h1>
+        <p className="error-message">Debes iniciar sesión para confirmar el resultado del pago.</p>
+
+        <div className="button-row">
+          <Link className="btn btn-secondary" to="/my-shipments">
+            Ir a historial
+          </Link>
+          <Link className="btn btn-primary" to="/create-shipment">
+            Crear nuevo envío
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   if (loading) {
     return (

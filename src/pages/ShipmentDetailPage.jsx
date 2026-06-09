@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useParams } from 'react-router-dom';
 import { getShipmentById } from '../services/api/shipmentService';
 import { formatCurrency, formatDate } from '../utils/formatters';
@@ -11,12 +12,15 @@ import {
 
 export default function ShipmentDetailPage() {
   const { shipmentId } = useParams();
+  const { isAuthenticated, isLoading } = useAuth0();
 
   const [shipment, setShipment] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated || !shipmentId) return;
+
     async function loadShipment() {
       try {
         setLoading(true);
@@ -31,10 +35,32 @@ export default function ShipmentDetailPage() {
       }
     }
 
-    if (shipmentId) {
-      loadShipment();
-    }
-  }, [shipmentId]);
+    loadShipment();
+  }, [isLoading, isAuthenticated, shipmentId]);
+
+  if (isLoading) {
+    return (
+      <main>
+        <h1>Detalle del envío</h1>
+        <p className="loading-box">Cargando sesión...</p>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <main>
+        <h1>Detalle del envío</h1>
+        <p className="error-message">Debes iniciar sesión para ver el detalle del envío.</p>
+
+        <div className="button-row">
+          <Link className="btn btn-secondary" to="/">
+            Volver al inicio
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   if (loading) {
     return (
