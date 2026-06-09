@@ -6,6 +6,16 @@ import { createQuote, createShipment, getRoutes } from '../services/api/shipment
 import { startPayment } from '../services/api/paymentService';
 import { redirectToWebpay } from '../utils/webpayRedirect';
 
+vi.mock('@auth0/auth0-react', () => ({
+  useAuth0: () => ({
+    isAuthenticated: true,
+    isLoading: false,
+    user: {
+      email: 'test@test.com',
+    },
+  }),
+}));
+
 vi.mock('../services/api/shipmentService', () => ({
   getRoutes: vi.fn(),
   createQuote: vi.fn(),
