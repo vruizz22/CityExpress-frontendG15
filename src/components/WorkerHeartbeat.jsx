@@ -37,7 +37,7 @@ export default function WorkerHeartbeat() {
 
       {isUp ? (
         <>
-          <span className="badge badge-success">Workers arriba</span>
+          <span className="badge badge-success">Workers operativos</span>
           <p className="success-message">El servicio de jobs/workers está operativo.</p>
         </>
       ) : (
