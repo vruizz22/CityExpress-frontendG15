@@ -12,9 +12,9 @@ concurrency:
 
 jobs:
   quality:
-    name: Lint · Test · Build
+    name: Lint · Test · Build · Lighthouse
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -41,6 +41,15 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Lighthouse CI
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: pnpm lhci
 
       - name: Upload coverage
         if: always()
