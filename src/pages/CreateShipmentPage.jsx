@@ -12,6 +12,8 @@ const INITIAL_FORM = {
   depth: '',
   criteria: 'price',
   maxHops: '',
+  priorityClass: 'medium',
+  insured: false,
   deliverNotBefore: '',
   metaContent: '',
 };
@@ -77,11 +79,11 @@ export default function CreateShipmentPage() {
   }, [isLoading, isAuthenticated]);
 
   function handleChange(event) {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
 
     setForm((previousForm) => ({
       ...previousForm,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
 
     setQuote(null);
@@ -119,7 +121,9 @@ export default function CreateShipmentPage() {
     if (!['price', 'distance'].includes(form.criteria)) {
       return 'El criterio debe ser precio o distancia.';
     }
-
+    if (!['low', 'medium', 'high'].includes(form.priorityClass)) {
+      return 'La prioridad debe ser baja, media o alta.';
+    }
     if (Number.isNaN(maxHops) || maxHops < 0) {
       return 'MaxHops debe ser un número mayor o igual a 0.';
     }
@@ -135,6 +139,8 @@ export default function CreateShipmentPage() {
       depth: Number(form.depth),
       criteria: form.criteria,
       maxHops: Number(form.maxHops),
+      priorityClass: form.priorityClass,
+      insured: form.insured,
     };
   }
 
@@ -333,6 +339,44 @@ export default function CreateShipmentPage() {
             onChange={handleChange}
           />
         </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="priorityClass">
+            Prioridad
+          </label>
+          <select
+            id="priorityClass"
+            name="priorityClass"
+            className="form-select"
+            value={form.priorityClass}
+            onChange={handleChange}
+          >
+            <option value="low">Baja — factor 0.5</option>
+            <option value="medium">Media — factor 1</option>
+            <option value="high">Alta — factor 2.5</option>
+          </select>
+          <p className="helper-text">La prioridad modifica el precio final del envío.</p>
+        </div>
+
+        <div className="form-group">
+          <label className="form-label" htmlFor="insured">
+            Seguro
+          </label>
+
+          <label className="helper-text">
+            <input
+              id="insured"
+              name="insured"
+              type="checkbox"
+              checked={form.insured}
+              onChange={handleChange}
+            />{' '}
+            Contratar seguro para este paquete.
+          </label>
+
+          {form.insured && (
+            <p className="helper-text">El seguro agrega una prima del 5% al costo del paquete.</p>
+          )}
+        </div>
 
         <div className="form-group">
           <label className="form-label" htmlFor="deliverNotBefore">
@@ -425,6 +469,26 @@ export default function CreateShipmentPage() {
               <span className="summary-value">
                 {quote.path?.length ? quote.path.join(' → ') : 'No disponible'}
               </span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Base sin ajustes</span>
+              <span className="summary-value">{formatCurrency(quote.baseAmount)}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Prioridad</span>
+              <span className="summary-value">{form.priorityClass}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Factor prioridad</span>
+              <span className="summary-value">{quote.priorityFactor ?? 'No disponible'}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Seguro</span>
+              <span className="summary-value">{quote.insured ? 'Sí, prima 5%' : 'No'}</span>
             </div>
 
             <div className="summary-item form-group-full">
