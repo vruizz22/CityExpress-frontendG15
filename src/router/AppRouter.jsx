@@ -11,6 +11,7 @@ import PaymentReturnPage from '../pages/PaymentReturnPage';
 import CreateSubscriptionPage from '../pages/CreateSubscriptionPage';
 import SubscriptionsPage from '../pages/SubscriptionsPage';
 import SubscriptionDetailPage from '../pages/SubscriptionDetailPage';
+import LiveDashboardPage from '../pages/LiveDashboardPage';
 
 export default function AppRouter() {
   return (
@@ -41,6 +42,7 @@ export default function AppRouter() {
         <Route path="/subscriptions/new" element={<CreateSubscriptionPage />} />
         <Route path="/subscriptions" element={<SubscriptionsPage />} />
         <Route path="/subscriptions/:subscriptionId" element={<SubscriptionDetailPage />} />
+        <Route path="/dashboard/live" element={<LiveDashboardPage />} />
       </Routes>
     </Router>
   );

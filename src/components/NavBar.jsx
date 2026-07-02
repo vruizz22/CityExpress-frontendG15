@@ -30,6 +30,7 @@ export default function Navbar() {
           )}
 
           <Link to="/subscriptions">Mis suscripciones</Link>
+          <Link to="/dashboard/live">Dashboard en vivo</Link>
         </>
       )}
 

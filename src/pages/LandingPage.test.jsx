@@ -64,6 +64,7 @@ describe('LandingPage', () => {
     expect(screen.queryByRole('button', { name: /ver rutas/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /ver paquetes/i })).not.toBeInTheDocument();
     expect(screen.queryByTestId('worker-heartbeat')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /dashboard en vivo/i })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /crear envío/i }));
 
@@ -96,6 +97,10 @@ describe('LandingPage', () => {
     expect(screen.queryByRole('button', { name: /ver rutas/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /ver paquetes/i })).not.toBeInTheDocument();
     expect(screen.queryByTestId('worker-heartbeat')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /dashboard en vivo/i })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /dashboard en vivo/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard/live');
 
     await user.click(screen.getByRole('button', { name: /crear envío/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/create-shipment');
@@ -135,6 +140,11 @@ describe('LandingPage', () => {
     expect(screen.getByTestId('worker-heartbeat')).toBeInTheDocument();
 
     expect(screen.queryByRole('button', { name: /^mis envíos$/i })).not.toBeInTheDocument();
+
+    expect(screen.getByRole('button', { name: /dashboard en vivo/i })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /dashboard en vivo/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard/live');
 
     await user.click(screen.getByRole('button', { name: /crear envío/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/create-shipment');

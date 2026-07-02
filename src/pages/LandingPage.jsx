@@ -63,6 +63,14 @@ export default function LandingPage() {
               Mis suscripciones
             </button>
 
+            <button
+              className="btn-secondary"
+              type="button"
+              onClick={() => navigate('/dashboard/live')}
+            >
+              Dashboard en vivo
+            </button>
+
             {isAdmin && (
               <>
                 <button className="btn-secondary" type="button" onClick={() => navigate('/routes')}>
