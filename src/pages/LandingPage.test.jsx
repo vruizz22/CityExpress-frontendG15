@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import LandingPage from './LandingPage';
 
 const mockNavigate = vi.fn();
+
 let mockAuth0State = {
   isAuthenticated: false,
   isLoading: false,
@@ -58,6 +59,8 @@ describe('LandingPage', () => {
 
     expect(screen.queryByRole('button', { name: /mis envíos/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /todos los envíos/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /crear suscripción/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /mis suscripciones/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /ver rutas/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /ver paquetes/i })).not.toBeInTheDocument();
     expect(screen.queryByTestId('worker-heartbeat')).not.toBeInTheDocument();
@@ -80,10 +83,14 @@ describe('LandingPage', () => {
 
     render(<LandingPage />);
 
-    expect(screen.getByText(/crea un envío, revisa su cotización/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/crea envíos, programa suscripciones y consulta el estado/i),
+    ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: /crear envío/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /mis envíos/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /crear suscripción/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /mis suscripciones/i })).toBeInTheDocument();
 
     expect(screen.queryByRole('button', { name: /todos los envíos/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /ver rutas/i })).not.toBeInTheDocument();
@@ -95,6 +102,12 @@ describe('LandingPage', () => {
 
     await user.click(screen.getByRole('button', { name: /mis envíos/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/my-shipments');
+
+    await user.click(screen.getByRole('button', { name: /crear suscripción/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/subscriptions/new');
+
+    await user.click(screen.getByRole('button', { name: /mis suscripciones/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/subscriptions');
   });
 
   it('muestra opciones admin cuando el usuario tiene rol admin', async () => {
@@ -115,6 +128,8 @@ describe('LandingPage', () => {
 
     expect(screen.getByRole('button', { name: /crear envío/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /todos los envíos/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /crear suscripción/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /mis suscripciones/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /ver rutas/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /ver paquetes/i })).toBeInTheDocument();
     expect(screen.getByTestId('worker-heartbeat')).toBeInTheDocument();
@@ -126,6 +141,12 @@ describe('LandingPage', () => {
 
     await user.click(screen.getByRole('button', { name: /todos los envíos/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/my-shipments');
+
+    await user.click(screen.getByRole('button', { name: /crear suscripción/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/subscriptions/new');
+
+    await user.click(screen.getByRole('button', { name: /mis suscripciones/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/subscriptions');
 
     await user.click(screen.getByRole('button', { name: /ver rutas/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/routes');
@@ -148,6 +169,8 @@ describe('LandingPage', () => {
 
     expect(screen.getByRole('button', { name: /crear envío/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /mis envíos/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /crear suscripción/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /mis suscripciones/i })).toBeInTheDocument();
 
     expect(screen.queryByRole('button', { name: /todos los envíos/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /ver rutas/i })).not.toBeInTheDocument();
