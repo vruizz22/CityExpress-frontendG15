@@ -15,6 +15,11 @@ jobs:
     name: Lint · Test · Build · Lighthouse
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+      VITE_AUTH0_DOMAIN: ${{ vars.VITE_AUTH0_DOMAIN }}
+      VITE_AUTH0_CLIENT_ID: ${{ vars.VITE_AUTH0_CLIENT_ID }}
+      VITE_AUTH0_AUDIENCE: ${{ vars.VITE_AUTH0_AUDIENCE }}
     steps:
       - uses: actions/checkout@v4
 

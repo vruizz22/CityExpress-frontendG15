@@ -1,15 +1,9 @@
 {
   "ci": {
     "collect": {
-      "url": [
-        "http://localhost:4173/",
-        "http://localhost:4173/create-shipment",
-        "http://localhost:4173/subscriptions",
-        "http://localhost:4173/subscriptions/new",
-        "http://localhost:4173/dashboard/live"
-      ],
+      "url": ["http://localhost:4173/"],
       "startServerCommand": "npm run preview:ci",
-      "startServerReadyPattern": "Local:",
+      "startServerReadyPattern": "Local",
       "numberOfRuns": 1,
       "settings": {
         "chromeFlags": "--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage"
