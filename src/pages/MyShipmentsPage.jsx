@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { getShipments } from '../services/api/shipmentService';
 import { Link } from 'react-router-dom';
+import { getShipments } from '../services/api/shipmentService';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import {
   getPaymentBadgeClass,
@@ -87,14 +87,46 @@ export default function MyShipmentsPage() {
         Revisa tus envíos, pagos, rutas calculadas y estado del envío inicial.
       </p>
 
+      <section className="section-card">
+        <h2>Resumen del historial</h2>
+
+        <div className="summary-grid">
+          <div className="summary-item">
+            <span className="summary-label">Total envíos</span>
+            <span className="summary-value">{meta.total}</span>
+          </div>
+
+          <div className="summary-item">
+            <span className="summary-label">Página actual</span>
+            <span className="summary-value">{meta.page}</span>
+          </div>
+
+          <div className="summary-item">
+            <span className="summary-label">Total páginas</span>
+            <span className="summary-value">{meta.totalPages}</span>
+          </div>
+
+          <div className="summary-item">
+            <span className="summary-label">Registros por página</span>
+            <span className="summary-value">{meta.limit}</span>
+          </div>
+        </div>
+      </section>
+
       {loading && <p className="loading-box">Cargando envíos...</p>}
 
       {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && shipments.length === 0 && (
-        <section className="section-card">
+        <section className="empty-state">
           <h2>Aún no tienes envíos</h2>
           <p className="info-text">Cuando crees y pagues un envío, aparecerá en esta sección.</p>
+
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/create-shipment">
+              Crear envío
+            </Link>
+          </div>
         </section>
       )}
 
