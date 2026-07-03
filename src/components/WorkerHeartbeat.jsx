@@ -35,17 +35,23 @@ export default function WorkerHeartbeat() {
     <section className="section-card">
       <h2>Estado workers</h2>
 
-      {isUp ? (
-        <>
-          <span className="badge badge-success">Workers operativos</span>
-          <p className="success-message">El servicio de jobs/workers está operativo.</p>
-        </>
-      ) : (
-        <>
-          <span className="badge badge-danger">Workers caídos</span>
-          <p className="error-message">El servicio de jobs/workers no está disponible.</p>
-        </>
-      )}
+      <div className="summary-grid">
+        <div className="summary-item">
+          <span className="summary-label">Jobs service</span>
+          <span className={`badge ${isUp ? 'badge-success' : 'badge-danger'}`}>
+            {isUp ? 'Workers operativos' : 'Workers caídos'}
+          </span>
+        </div>
+
+        <div className="summary-item">
+          <span className="summary-label">Estado</span>
+          <span className="summary-value">
+            {isUp
+              ? 'El servicio de jobs/workers está operativo.'
+              : 'El servicio de jobs/workers no está disponible.'}
+          </span>
+        </div>
+      </div>
     </section>
   );
 }

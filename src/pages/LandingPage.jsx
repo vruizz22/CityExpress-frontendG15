@@ -27,7 +27,7 @@ export default function LandingPage() {
           {isAdmin ? (
             <h4>Administra paquetes, rutas, workers y también crea nuevos envíos para usuarios.</h4>
           ) : (
-            <h4>Crea un envío, revisa su cotización y consulta el estado de tus paquetes.</h4>
+            <h4>Crea envíos, programa suscripciones y consulta el estado de tus paquetes.</h4>
           )}
 
           <div className="button-row">
@@ -45,6 +45,30 @@ export default function LandingPage() {
               onClick={() => navigate('/my-shipments')}
             >
               {isAdmin ? 'Todos los envíos' : 'Mis envíos'}
+            </button>
+
+            <button
+              className="btn-primary"
+              type="button"
+              onClick={() => navigate('/subscriptions/new')}
+            >
+              Crear suscripción
+            </button>
+
+            <button
+              className="btn-secondary"
+              type="button"
+              onClick={() => navigate('/subscriptions')}
+            >
+              Mis suscripciones
+            </button>
+
+            <button
+              className="btn-secondary"
+              type="button"
+              onClick={() => navigate('/dashboard/live')}
+            >
+              Dashboard en vivo
             </button>
 
             {isAdmin && (
@@ -68,7 +92,7 @@ export default function LandingPage() {
         </>
       ) : (
         <>
-          <h4>Inicia sesión para crear envíos y revisar su estado.</h4>
+          <h4>Inicia sesión para crear envíos, suscripciones y revisar su estado.</h4>
 
           <div className="button-row">
             <button

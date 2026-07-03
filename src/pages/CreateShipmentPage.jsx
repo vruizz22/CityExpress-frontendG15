@@ -12,6 +12,8 @@ const INITIAL_FORM = {
   depth: '',
   criteria: 'price',
   maxHops: '',
+  priorityClass: 'medium',
+  insured: false,
   deliverNotBefore: '',
   metaContent: '',
 };
@@ -77,11 +79,11 @@ export default function CreateShipmentPage() {
   }, [isLoading, isAuthenticated]);
 
   function handleChange(event) {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
 
     setForm((previousForm) => ({
       ...previousForm,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
 
     setQuote(null);
@@ -120,6 +122,10 @@ export default function CreateShipmentPage() {
       return 'El criterio debe ser precio o distancia.';
     }
 
+    if (!['low', 'medium', 'high'].includes(form.priorityClass)) {
+      return 'La prioridad debe ser baja, media o alta.';
+    }
+
     if (Number.isNaN(maxHops) || maxHops < 0) {
       return 'MaxHops debe ser un número mayor o igual a 0.';
     }
@@ -135,6 +141,8 @@ export default function CreateShipmentPage() {
       depth: Number(form.depth),
       criteria: form.criteria,
       maxHops: Number(form.maxHops),
+      priorityClass: form.priorityClass,
+      insured: form.insured,
     };
   }
 
@@ -226,147 +234,208 @@ export default function CreateShipmentPage() {
       </p>
 
       <form className="form-grid" onSubmit={handleQuote}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="destinationId">
-            Ciudad destino
-          </label>
-          <select
-            id="destinationId"
-            name="destinationId"
-            className="form-select"
-            value={form.destinationId}
-            onChange={handleChange}
-            disabled={isLoading || loadingRoutes}
-          >
-            <option value="">
-              {isLoading || loadingRoutes ? 'Cargando ciudades...' : 'Selecciona una ciudad'}
-            </option>
+        <section className="form-section">
+          <h2 className="form-section-title">Datos del paquete</h2>
 
-            {routes.map((city) => {
-              const code = getCityCode(city);
-              const name = getCityName(city);
-              const enabled = city.enabled !== false;
-
-              if (!code) return null;
-
-              return (
-                <option key={code} value={code} disabled={!enabled}>
-                  {code} - {name} {!enabled ? '(no disponible)' : ''}
+          <div className="form-section-grid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="destinationId">
+                Ciudad destino
+              </label>
+              <select
+                id="destinationId"
+                name="destinationId"
+                className="form-select"
+                value={form.destinationId}
+                onChange={handleChange}
+                disabled={isLoading || loadingRoutes}
+              >
+                <option value="">
+                  {isLoading || loadingRoutes ? 'Cargando ciudades...' : 'Selecciona una ciudad'}
                 </option>
-              );
-            })}
-          </select>
-        </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="criteria">
-            Criterio de ruteo
-          </label>
-          <select
-            id="criteria"
-            name="criteria"
-            className="form-select"
-            value={form.criteria}
-            onChange={handleChange}
-          >
-            <option value="price">Precio más bajo</option>
-            <option value="distance">Distancia más corta</option>
-          </select>
-        </div>
+                {routes.map((city) => {
+                  const code = getCityCode(city);
+                  const name = getCityName(city);
+                  const enabled = city.enabled !== false;
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="height">
-            Alto en cm
-          </label>
-          <input
-            id="height"
-            name="height"
-            className="form-input"
-            type="number"
-            min="1"
-            value={form.height}
-            onChange={handleChange}
-          />
-        </div>
+                  if (!code) return null;
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="width">
-            Ancho en cm
-          </label>
-          <input
-            id="width"
-            name="width"
-            className="form-input"
-            type="number"
-            min="1"
-            value={form.width}
-            onChange={handleChange}
-          />
-        </div>
+                  return (
+                    <option key={code} value={code} disabled={!enabled}>
+                      {code} - {name} {!enabled ? '(no disponible)' : ''}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="depth">
-            Profundidad en cm
-          </label>
-          <input
-            id="depth"
-            name="depth"
-            className="form-input"
-            type="number"
-            min="1"
-            value={form.depth}
-            onChange={handleChange}
-          />
-        </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="height">
+                Alto en cm
+              </label>
+              <input
+                id="height"
+                name="height"
+                className="form-input"
+                type="number"
+                min="1"
+                value={form.height}
+                onChange={handleChange}
+              />
+            </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="maxHops">
-            MaxHops
-          </label>
-          <input
-            id="maxHops"
-            name="maxHops"
-            className="form-input"
-            type="number"
-            min="0"
-            value={form.maxHops}
-            onChange={handleChange}
-          />
-        </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="width">
+                Ancho en cm
+              </label>
+              <input
+                id="width"
+                name="width"
+                className="form-input"
+                type="number"
+                min="1"
+                value={form.width}
+                onChange={handleChange}
+              />
+            </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="deliverNotBefore">
-            Entregar no antes de
-          </label>
-          <input
-            id="deliverNotBefore"
-            name="deliverNotBefore"
-            className="form-input"
-            type="datetime-local"
-            value={form.deliverNotBefore}
-            onChange={handleChange}
-          />
-        </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="depth">
+                Profundidad en cm
+              </label>
+              <input
+                id="depth"
+                name="depth"
+                className="form-input"
+                type="number"
+                min="1"
+                value={form.depth}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-        <div className="form-group form-group-full">
-          <label className="form-label" htmlFor="metaContent">
-            MetaContent
-          </label>
-          <textarea
-            id="metaContent"
-            name="metaContent"
-            className="form-textarea"
-            value={form.metaContent}
-            onChange={handleChange}
-            placeholder="Ej: frágil, no doblar, entregar con cuidado"
-          />
-        </div>
-
-        <div className="form-group form-group-full">
           <p className="helper-text">
             La suma de alto, ancho y profundidad no puede superar 3000 cm.
           </p>
-        </div>
+        </section>
+
+        <section className="form-section">
+          <h2 className="form-section-title">Ruta y entrega</h2>
+
+          <div className="form-section-grid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="criteria">
+                Criterio de ruteo
+              </label>
+              <select
+                id="criteria"
+                name="criteria"
+                className="form-select"
+                value={form.criteria}
+                onChange={handleChange}
+              >
+                <option value="price">Precio más bajo</option>
+                <option value="distance">Distancia más corta</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="maxHops">
+                MaxHops
+              </label>
+              <input
+                id="maxHops"
+                name="maxHops"
+                className="form-input"
+                type="number"
+                min="0"
+                value={form.maxHops}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group form-group-full">
+              <label className="form-label" htmlFor="deliverNotBefore">
+                Entregar no antes de
+              </label>
+              <input
+                id="deliverNotBefore"
+                name="deliverNotBefore"
+                className="form-input"
+                type="datetime-local"
+                value={form.deliverNotBefore}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="form-section">
+          <h2 className="form-section-title">Prioridad y seguro</h2>
+
+          <div className="form-section-grid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="priorityClass">
+                Prioridad
+              </label>
+              <select
+                id="priorityClass"
+                name="priorityClass"
+                className="form-select"
+                value={form.priorityClass}
+                onChange={handleChange}
+              >
+                <option value="low">Baja — factor 0.5</option>
+                <option value="medium">Media — factor 1</option>
+                <option value="high">Alta — factor 2.5</option>
+              </select>
+              <p className="helper-text">La prioridad modifica el precio final del envío.</p>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="insured">
+                Seguro
+              </label>
+
+              <label className="helper-text">
+                <input
+                  id="insured"
+                  name="insured"
+                  type="checkbox"
+                  checked={form.insured}
+                  onChange={handleChange}
+                />{' '}
+                Contratar seguro para este paquete.
+              </label>
+
+              {form.insured && (
+                <p className="helper-text">
+                  El seguro agrega una prima del 5% al costo del paquete.
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="form-section">
+          <h2 className="form-section-title">Metadata</h2>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="metaContent">
+              MetaContent
+            </label>
+            <textarea
+              id="metaContent"
+              name="metaContent"
+              className="form-textarea"
+              value={form.metaContent}
+              onChange={handleChange}
+              placeholder="Ej: frágil, no doblar, entregar con cuidado"
+            />
+          </div>
+        </section>
 
         <div className="form-group form-group-full">
           <div className="button-row">
@@ -425,6 +494,26 @@ export default function CreateShipmentPage() {
               <span className="summary-value">
                 {quote.path?.length ? quote.path.join(' → ') : 'No disponible'}
               </span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Base sin ajustes</span>
+              <span className="summary-value">{formatCurrency(quote.baseAmount)}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Prioridad</span>
+              <span className="summary-value">{form.priorityClass}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Factor prioridad</span>
+              <span className="summary-value">{quote.priorityFactor ?? 'No disponible'}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Seguro</span>
+              <span className="summary-value">{quote.insured ? 'Sí, prima 5%' : 'No'}</span>
             </div>
 
             <div className="summary-item form-group-full">

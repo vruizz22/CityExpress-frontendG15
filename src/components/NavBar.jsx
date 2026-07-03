@@ -21,11 +21,16 @@ export default function Navbar() {
       {isAuthenticated && (
         <>
           <Link to="/create-shipment">Crear envío</Link>
+          <Link to="/subscriptions/new">Crear suscripción</Link>
+
           {isAdmin ? (
             <Link to="/my-shipments">Todos los envíos</Link>
           ) : (
             <Link to="/my-shipments">Mis envíos</Link>
           )}
+
+          <Link to="/subscriptions">Mis suscripciones</Link>
+          <Link to="/dashboard/live">Dashboard en vivo</Link>
         </>
       )}
 
