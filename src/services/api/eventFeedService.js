@@ -1,9 +1,23 @@
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
 
 function buildApiUrl(path) {
   if (!API_URL) return path;
 
   return `${API_URL}${path}`;
+}
+
+async function parseJsonResponse(response) {
+  const contentType = response.headers.get('content-type') || '';
+
+  if (!response.ok) {
+    throw new Error('No se pudieron cargar los eventos recientes.');
+  }
+
+  if (!contentType.includes('application/json')) {
+    throw new Error('El backend de eventos no respondió JSON. Revisa la URL de la API.');
+  }
+
+  return response.json();
 }
 
 export async function getRecentEvents() {
@@ -14,11 +28,7 @@ export async function getRecentEvents() {
     },
   });
 
-  if (!response.ok) {
-    throw new Error('No se pudieron cargar los eventos recientes.');
-  }
-
-  return response.json();
+  return parseJsonResponse(response);
 }
 
 export function subscribeToEventStream({ onMessage, onError }) {
