@@ -41,7 +41,9 @@ describe('CreateShipmentPage', () => {
     ]);
   });
 
-  async function fillValidForm(user) {
+  async function fillValidForm(user, options = {}) {
+    const { priorityClass = 'medium', insured = false } = options;
+
     await screen.findByRole('option', { name: /COR - Coruscant/i });
 
     await user.selectOptions(screen.getByLabelText(/ciudad destino/i), 'COR');
@@ -60,6 +62,12 @@ describe('CreateShipmentPage', () => {
     await user.clear(screen.getByLabelText(/maxhops/i));
     await user.type(screen.getByLabelText(/maxhops/i), '5');
 
+    await user.selectOptions(screen.getByLabelText(/prioridad/i), priorityClass);
+
+    if (insured) {
+      await user.click(screen.getByRole('checkbox', { name: /seguro/i }));
+    }
+
     await user.type(screen.getByLabelText(/entregar no antes de/i), '2026-06-10T12:00');
     await user.type(screen.getByLabelText(/metacontent/i), 'frágil');
   }
@@ -70,6 +78,32 @@ describe('CreateShipmentPage', () => {
     expect(await screen.findByRole('option', { name: /COR - Coruscant/i })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /HGW - Hogwarts/i })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /RNC - Rancagua/i })).toBeDisabled();
+  });
+
+  it('muestra controles de prioridad y seguro', async () => {
+    render(<CreateShipmentPage />);
+
+    await screen.findByRole('option', { name: /COR - Coruscant/i });
+
+    expect(screen.getByLabelText(/prioridad/i)).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /baja/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /media/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /alta/i })).toBeInTheDocument();
+
+    expect(screen.getByRole('checkbox', { name: /seguro/i })).toBeInTheDocument();
+    expect(screen.getByText(/contratar seguro para este paquete/i)).toBeInTheDocument();
+  });
+
+  it('muestra la prima del 5% cuando el seguro está activo', async () => {
+    const user = userEvent.setup();
+
+    render(<CreateShipmentPage />);
+
+    await screen.findByRole('option', { name: /COR - Coruscant/i });
+
+    await user.click(screen.getByRole('checkbox', { name: /seguro/i }));
+
+    expect(screen.getByText(/prima del 5%/i)).toBeInTheDocument();
   });
 
   it('muestra error si se intenta cotizar sin ciudad destino', async () => {
@@ -107,7 +141,7 @@ describe('CreateShipmentPage', () => {
     expect(createQuote).not.toHaveBeenCalled();
   });
 
-  it('cotiza correctamente y muestra el resumen', async () => {
+  it('cotiza correctamente y muestra el resumen con desglose de prioridad y seguro', async () => {
     const user = userEvent.setup();
 
     createQuote.mockResolvedValue({
@@ -118,6 +152,62 @@ describe('CreateShipmentPage', () => {
       nextHop: 'HGW',
       path: ['HGW', 'RNC', 'COR'],
       fPrice: 1,
+      baseAmount: 10000,
+      priorityFactor: 2.5,
+      insured: true,
+      amount: 26250,
+      reachable: true,
+      maxHopsOk: true,
+    });
+
+    render(<CreateShipmentPage />);
+
+    await fillValidForm(user, {
+      priorityClass: 'high',
+      insured: true,
+    });
+
+    await user.click(screen.getByRole('button', { name: /cotizar envío/i }));
+
+    await waitFor(() => {
+      expect(createQuote).toHaveBeenCalledWith({
+        destinationId: 'COR',
+        height: 100,
+        width: 80,
+        depth: 50,
+        criteria: 'price',
+        maxHops: 5,
+        priorityClass: 'high',
+        insured: true,
+      });
+    });
+
+    expect(await screen.findByRole('heading', { name: /cotización/i })).toBeInTheDocument();
+    expect(screen.getByText(/HGW → RNC → COR/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/base sin ajustes/i)).toBeInTheDocument();
+    expect(screen.getByText(/factor prioridad/i)).toBeInTheDocument();
+    expect(screen.getByText(/sí, prima 5%/i)).toBeInTheDocument();
+    expect(screen.getByText('high')).toBeInTheDocument();
+    expect(screen.getByText('2.5')).toBeInTheDocument();
+
+    expect(screen.getByRole('button', { name: /^crear envío$/i })).toBeInTheDocument();
+  });
+
+  it('cotiza con prioridad media y sin seguro por defecto', async () => {
+    const user = userEvent.setup();
+
+    createQuote.mockResolvedValue({
+      destinationId: 'COR',
+      criteria: 'price',
+      routeMetricCost: 12000,
+      hops: 3,
+      nextHop: 'HGW',
+      path: ['HGW', 'RNC', 'COR'],
+      fPrice: 1,
+      baseAmount: 15000,
+      priorityFactor: 1,
+      insured: false,
       amount: 15000,
       reachable: true,
       maxHopsOk: true,
@@ -136,12 +226,12 @@ describe('CreateShipmentPage', () => {
         depth: 50,
         criteria: 'price',
         maxHops: 5,
+        priorityClass: 'medium',
+        insured: false,
       });
     });
 
     expect(await screen.findByRole('heading', { name: /cotización/i })).toBeInTheDocument();
-    expect(screen.getByText(/HGW → RNC → COR/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /^crear envío$/i })).toBeInTheDocument();
   });
 
   it('muestra error visual si la ruta no es alcanzable', async () => {
@@ -155,6 +245,9 @@ describe('CreateShipmentPage', () => {
       nextHop: null,
       path: [],
       fPrice: 1,
+      baseAmount: null,
+      priorityFactor: 1,
+      insured: false,
       amount: null,
       reachable: false,
       maxHopsOk: false,
@@ -183,6 +276,9 @@ describe('CreateShipmentPage', () => {
       nextHop: 'HGW',
       path: ['HGW', 'RNC', 'COR'],
       fPrice: 1,
+      baseAmount: 15000,
+      priorityFactor: 1,
+      insured: false,
       amount: 15000,
       reachable: true,
       maxHopsOk: false,
@@ -198,7 +294,7 @@ describe('CreateShipmentPage', () => {
     expect(screen.queryByRole('button', { name: /^crear envío$/i })).not.toBeInTheDocument();
   });
 
-  it('crea shipment después de una cotización válida', async () => {
+  it('crea shipment después de una cotización válida incluyendo prioridad y seguro', async () => {
     const user = userEvent.setup();
 
     createQuote.mockResolvedValue({
@@ -209,7 +305,10 @@ describe('CreateShipmentPage', () => {
       nextHop: 'HGW',
       path: ['HGW', 'RNC', 'COR'],
       fPrice: 1,
-      amount: 15000,
+      baseAmount: 10000,
+      priorityFactor: 2.5,
+      insured: true,
+      amount: 26250,
       reachable: true,
       maxHopsOk: true,
     });
@@ -217,13 +316,17 @@ describe('CreateShipmentPage', () => {
     createShipment.mockResolvedValue({
       shipmentId: 'shipment-123',
       packageId: 'package-123',
-      amount: 15000,
+      amount: 26250,
       quote: {},
     });
 
     render(<CreateShipmentPage />);
 
-    await fillValidForm(user);
+    await fillValidForm(user, {
+      priorityClass: 'high',
+      insured: true,
+    });
+
     await user.click(screen.getByRole('button', { name: /cotizar envío/i }));
 
     await user.click(await screen.findByRole('button', { name: /^crear envío$/i }));
@@ -237,6 +340,8 @@ describe('CreateShipmentPage', () => {
           depth: 50,
           criteria: 'price',
           maxHops: 5,
+          priorityClass: 'high',
+          insured: true,
           metaContent: 'frágil',
         }),
       );
@@ -258,6 +363,9 @@ describe('CreateShipmentPage', () => {
       nextHop: 'HGW',
       path: ['HGW', 'RNC', 'COR'],
       fPrice: 1,
+      baseAmount: 15000,
+      priorityFactor: 1,
+      insured: false,
       amount: 15000,
       reachable: true,
       maxHopsOk: true,
@@ -305,10 +413,14 @@ describe('CreateShipmentPage', () => {
 
     await user.selectOptions(screen.getByLabelText(/ciudad destino/i), 'COR');
     await user.type(screen.getByLabelText(/alto en cm/i), '100');
+    await user.selectOptions(screen.getByLabelText(/prioridad/i), 'high');
+    await user.click(screen.getByRole('checkbox', { name: /seguro/i }));
 
     await user.click(screen.getByRole('button', { name: /cancelar/i }));
 
     expect(screen.getByLabelText(/ciudad destino/i)).toHaveValue('');
     expect(screen.getByLabelText(/alto en cm/i)).toHaveValue(null);
+    expect(screen.getByLabelText(/prioridad/i)).toHaveValue('medium');
+    expect(screen.getByRole('checkbox', { name: /seguro/i })).not.toBeChecked();
   });
 });

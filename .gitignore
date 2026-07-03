@@ -162,3 +162,6 @@ vite.config.ts.timestamp-*
 # MSW service worker auto-generated
 public/mockServiceWorker.js
 
+
+.lighthouseci/
+

@@ -1,22 +1,29 @@
 export default function RoutesTable({ routes }) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th className="p">Código</th>
-          <th className="p">Ciudad</th>
-          <th className="p">Ruta habilitada</th>
-        </tr>
-      </thead>
-      <tbody>
-        {routes.map((route) => (
-          <tr key={route.code}>
-            <td className="p">{route.code}</td>
-            <td className="p">{route.name}</td>
-            <td className="p">{route.enabled ? 'Habilitada' : 'Deshabilitada'}</td>
+    <div className="table-wrapper">
+      <table className="data-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Ciudad</th>
+            <th>Ruta habilitada</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {routes.map((route) => (
+            <tr key={route.code}>
+              <td>{route.code}</td>
+              <td>{route.name}</td>
+              <td>
+                <span className={`badge ${route.enabled ? 'badge-success' : 'badge-danger'}`}>
+                  {route.enabled ? 'Habilitada' : 'Deshabilitada'}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

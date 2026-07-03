@@ -2,6 +2,7 @@
   "name": "cityexpress-frontend-g15",
   "private": true,
   "version": "1.0.0",
+  "packageManager": "pnpm@10.0.0",
   "description": "CityExpress Frontend G15 — React + Vite SPA (IIC2173 ArquiSoftware 2026-1)",
   "type": "module",
   "engines": {
@@ -11,6 +12,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "preview:ci": "vite preview --host 0.0.0.0 --port 4173",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
@@ -20,6 +22,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lhci": "lhci autorun",
     "prepare": "husky"
   },
   "dependencies": {
@@ -38,6 +41,7 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.48.0",
     "@tailwindcss/vite": "^4.0.0",
     "@testing-library/jest-dom": "^6.5.0",

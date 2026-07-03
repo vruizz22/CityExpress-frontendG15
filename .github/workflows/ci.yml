@@ -12,15 +12,18 @@ concurrency:
 
 jobs:
   quality:
-    name: Lint · Test · Build
+    name: Lint · Test · Build · Lighthouse
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+      VITE_AUTH0_DOMAIN: ${{ vars.VITE_AUTH0_DOMAIN }}
+      VITE_AUTH0_CLIENT_ID: ${{ vars.VITE_AUTH0_CLIENT_ID }}
+      VITE_AUTH0_AUDIENCE: ${{ vars.VITE_AUTH0_AUDIENCE }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:
@@ -42,6 +45,11 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Lighthouse CI
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: pnpm lhci
+
       - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v4
@@ -60,8 +68,6 @@ jobs:
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:

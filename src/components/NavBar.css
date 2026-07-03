@@ -1,67 +1,196 @@
 .navbar {
-  width: 100%;
+  width: calc(100% - 32px);
+  max-width: 1760px;
+  min-height: 74px;
+  margin: 16px auto 0;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
-  gap: 28px;
-  padding: 18px 32px;
-  background: linear-gradient(90deg, var(--color-wine), var(--color-magenta), var(--color-fuchsia));
-  box-shadow: var(--shadow-soft);
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
   position: sticky;
-  top: 0;
+  top: 14px;
   z-index: 20;
-}
-
-.navbar h2 {
-  margin: 0;
-  font-family: 'Bodoni Moda', serif;
-  font-size: 2rem;
-  font-weight: 800;
-  color: black;
-  letter-spacing: 0.02em;
-  line-height: 1;
-}
-
-.navbar a {
-  color: black;
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-.navbar a:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.navbar button {
-  border: none;
-  border-radius: 999px;
-  padding: 12px 18px;
-  background: var(--color-gold);
-  color: var(--color-text);
-  font-family: 'Inter', sans-serif;
-  font-size: 0.98rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.navbar button:hover {
-  transform: translateY(-1px);
-  opacity: 0.95;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(76, 29, 149, 0.9),
+      rgba(124, 58, 237, 0.84),
+      rgba(217, 70, 239, 0.76)
+    ),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.24), transparent 16rem);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 34px;
+  box-shadow: 0 20px 50px rgba(76, 29, 149, 0.22);
+  backdrop-filter: blur(18px);
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-right: auto;
+  margin-right: 10px;
+  padding: 0 8px;
+  flex: 0 0 auto;
+}
+
+.navbar-brand p {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.18rem;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.navbar-brand::before {
+  content: '✈';
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  color: #4c1d95;
+  background: linear-gradient(135deg, #ffffff, #fef3c7);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+  flex: 0 0 auto;
+}
+
+.navbar h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.55rem;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.navbar a {
+  position: relative;
+  color: rgba(255, 255, 255, 0.94);
+  text-decoration: none;
+  font-size: clamp(0.78rem, 0.82vw, 0.94rem);
+  font-weight: 850;
+  white-space: nowrap;
+  padding: 10px 11px;
+  border-radius: 999px;
+  flex: 0 1 auto;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.navbar a:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.navbar span {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.84rem;
+  font-weight: 750;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar button,
+.navbar .btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 15px;
+  margin: 0;
+  background: linear-gradient(135deg, #f59e0b, #fb7185);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  width: auto;
+  max-width: none;
+  flex: 0 0 auto;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.navbar button:hover,
+.navbar .btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.96;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.22);
+}
+
+.navbar .btn-outline {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Pantallas medianas: permite dos filas limpias */
+@media (max-width: 1250px) {
+  .navbar {
+    justify-content: center;
+    border-radius: 28px;
+    row-gap: 10px;
+  }
+
+  .navbar-brand {
+    width: 100%;
+    justify-content: center;
+    margin-right: 0;
+  }
+
+  .navbar a,
+  .navbar button,
+  .navbar .btn {
+    font-size: 0.86rem;
+    padding: 9px 11px;
+  }
+}
+
+/* Tablets y móviles */
+@media (max-width: 720px) {
+  .navbar {
+    width: calc(100% - 20px);
+    top: 8px;
+    margin-top: 8px;
+    padding: 14px;
+    border-radius: 24px;
+    justify-content: center;
+  }
+
+  .navbar-brand {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar h2 {
+    font-size: 1.35rem;
+  }
+
+  .navbar a,
+  .navbar button,
+  .navbar .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .navbar span {
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+  }
 }
