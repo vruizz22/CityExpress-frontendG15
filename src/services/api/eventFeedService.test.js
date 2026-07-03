@@ -25,12 +25,15 @@ describe('eventFeedService', () => {
 
     global.fetch.mockResolvedValue({
       ok: true,
+      headers: {
+        get: vi.fn().mockReturnValue('application/json'),
+      },
       json: vi.fn().mockResolvedValue(events),
     });
 
     await expect(getRecentEvents()).resolves.toEqual(events);
 
-    expect(global.fetch).toHaveBeenCalledWith('/events/recent', {
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/events/recent'), {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -41,10 +44,25 @@ describe('eventFeedService', () => {
   it('lanza error si falla la carga de eventos recientes', async () => {
     global.fetch.mockResolvedValue({
       ok: false,
+      headers: {
+        get: vi.fn().mockReturnValue('application/json'),
+      },
       json: vi.fn(),
     });
 
     await expect(getRecentEvents()).rejects.toThrow(/no se pudieron cargar/i);
+  });
+
+  it('lanza error si el backend no responde JSON', async () => {
+    global.fetch.mockResolvedValue({
+      ok: true,
+      headers: {
+        get: vi.fn().mockReturnValue('text/html'),
+      },
+      json: vi.fn(),
+    });
+
+    await expect(getRecentEvents()).rejects.toThrow(/no respondió JSON/i);
   });
 
   it('se suscribe al stream SSE', () => {
@@ -56,7 +74,7 @@ describe('eventFeedService', () => {
       onError,
     });
 
-    expect(global.EventSource).toHaveBeenCalledWith('/events/stream');
+    expect(global.EventSource).toHaveBeenCalledWith(expect.stringContaining('/events/stream'));
 
     eventSource.onmessage({
       data: JSON.stringify({
