@@ -42,13 +42,9 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Setup Chrome
-        id: setup-chrome
-        uses: browser-actions/setup-chrome@v1
-
       - name: Lighthouse CI
         env:
-          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          CHROME_PATH: /usr/bin/google-chrome
         run: pnpm lhci
 
       - name: Upload coverage
