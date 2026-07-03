@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { getShipments } from '../services/api/shipmentService';
 import { Link } from 'react-router-dom';
 import { getShipments } from '../services/api/shipmentService';
 import { formatCurrency, formatDate } from '../utils/formatters';
