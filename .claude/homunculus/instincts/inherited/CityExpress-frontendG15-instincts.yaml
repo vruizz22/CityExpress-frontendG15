@@ -1,0 +1,554 @@
+# Instincts generated from https://github.com/vruizz22/CityExpress-frontendG15
+# Generated: 2026-07-03T00:23:23.773Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: CityExpress-frontendG15-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat, fix, ci, style
+
+## Evidence
+
+- 7 commits analyzed
+- Detected conventional commit pattern
+- Examples: fix: wait for Auth0 before protected requests, feat: add subscription frontend views
+
+---
+id: CityExpress-frontendG15-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Commit Length
+
+## Action
+
+Keep commit messages concise (~37 characters)
+
+## Evidence
+
+- Average commit message length: 37 chars
+- Based on 7 commits
+
+---
+id: CityExpress-frontendG15-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: CityExpress-frontendG15-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: CityExpress-frontendG15-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: CityExpress-frontendG15-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: components, pages, router, services
+
+---
+id: CityExpress-frontendG15-test-colocate
+trigger: "when writing tests"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Test Colocate
+
+## Action
+
+Place test file next to the source file (e.g., Button.test.tsx next to Button.tsx)
+
+## Evidence
+
+- Colocated test pattern detected
+- Tests live alongside source files
+
+---
+id: CityExpress-frontendG15-test-framework
+trigger: "when writing tests"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Test Framework
+
+## Action
+
+Use vitest as the test framework
+
+## Evidence
+
+- Test framework detected: vitest
+- File pattern: *.test.js
+
+---
+id: CityExpress-frontendG15-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Test Naming
+
+## Action
+
+Name test files using the pattern: *.test.js
+
+## Evidence
+
+- File pattern: *.test.js
+- Consistent across test files
+
+---
+id: CityExpress-frontendG15-test-mocking
+trigger: "when mocking dependencies in tests"
+confidence: 0.75
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Test Mocking
+
+## Action
+
+Use msw for mocking
+
+## Evidence
+
+- Mocking pattern detected: msw
+- Consistent across test files
+
+---
+id: CityExpress-frontendG15-test-types
+trigger: "when planning tests for a feature"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Test Types
+
+## Action
+
+Write unit, integration tests to match project standards
+
+## Evidence
+
+- Test types detected: unit, integration
+- Coverage config: yes
+
+---
+id: CityExpress-frontendG15-workflow-add-new-feature-with-api-and-tests
+trigger: "when doing add new feature with api and tests"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Workflow Add New Feature With Api And Tests
+
+## Action
+
+Follow the add-new-feature-with-api-and-tests workflow:
+1. Create or update component/page files for the new feature.
+2. Add or update corresponding API service file.
+3. Write or update test files for components/pages and API service.
+4. Update router or navigation as needed.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/components/*.jsx, src/pages/*Page.jsx, src/pages/*Page.test.jsx
+
+---
+id: CityExpress-frontendG15-workflow-update-existing-page-with-tests
+trigger: "when doing update existing page with tests"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/vruizz22/CityExpress-frontendG15
+---
+
+# CityExpress FrontendG15 Workflow Update Existing Page With Tests
+
+## Action
+
+Follow the update-existing-page-with-tests workflow:
+1. Edit the relevant page file(s).
+2. Update or add corresponding test file(s) for the page(s).
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/pages/*Page.jsx, src/pages/*Page.test.jsx
+
+---
+id: cityexpress-frontendg15-instinct-file-naming
+trigger: "When creating a new file (component, page, class)"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct File Naming
+
+## Action
+
+Name the file using PascalCase (e.g., MyComponent.jsx, HomePage.jsx)
+
+## Evidence
+
+- Pattern in src/components/*.jsx
+- Pattern in src/pages/*Page.jsx
+
+---
+id: cityexpress-frontendg15-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Function Naming
+
+## Action
+
+Use camelCase for function names (e.g., fetchData, handleClick)
+
+## Evidence
+
+- Pattern in src/components/*.jsx
+- Pattern in src/services/api/*Service.js
+
+---
+id: cityexpress-frontendg15-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names (e.g., UserService, AuthProvider)
+
+## Evidence
+
+- Pattern in src/services/api/*Service.js
+
+---
+id: cityexpress-frontendg15-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names (e.g., API_URL, MAX_ATTEMPTS)
+
+## Evidence
+
+- Pattern in src/services/api/*Service.js
+
+---
+id: cityexpress-frontendg15-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Import Style
+
+## Action
+
+Use relative import paths (e.g., import Button from '../Button')
+
+## Evidence
+
+- Pattern in src/components/*.jsx
+- Pattern in src/pages/*Page.jsx
+
+---
+id: cityexpress-frontendg15-instinct-export-style
+trigger: "When exporting functions or components"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Export Style
+
+## Action
+
+Use named exports (e.g., export function MyComponent() {})
+
+## Evidence
+
+- Pattern in src/components/*.jsx
+- Pattern in src/services/api/*Service.js
+
+---
+id: cityexpress-frontendg15-instinct-test-file-pattern
+trigger: "When writing a test file"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Test File Pattern
+
+## Action
+
+Name the file with .test.js suffix (e.g., MyComponent.test.js)
+
+## Evidence
+
+- Pattern in src/pages/*Page.test.jsx
+- Pattern in src/services/api/*Service.test.js
+
+---
+id: cityexpress-frontendg15-instinct-test-type
+trigger: "When writing tests for a component or service"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Test Type
+
+## Action
+
+Write both unit and integration tests as appropriate
+
+## Evidence
+
+- Pattern in testTypes: [unit, integration]
+- Pattern in src/pages/*Page.test.jsx
+
+---
+id: cityexpress-frontendg15-instinct-mocking-style
+trigger: "When mocking API requests in tests"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Mocking Style
+
+## Action
+
+Use msw (Mock Service Worker) for mocking
+
+## Evidence
+
+- Pattern in mockingStyle: msw
+- Pattern in src/services/api/*Service.test.js
+
+---
+id: cityexpress-frontendg15-instinct-coverage-config
+trigger: "When configuring tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Coverage Config
+
+## Action
+
+Enable and maintain code coverage configuration
+
+## Evidence
+
+- Pattern in coverageConfig: true
+- Presence of coverage config in test setup
+
+---
+id: cityexpress-frontendg15-instinct-commit-format
+trigger: "When writing a commit message"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Commit Format
+
+## Action
+
+Use Conventional Commits format with prefixes: feat, fix, ci, style (e.g., 'feat: add new feature')
+
+## Evidence
+
+- Seen in commit: 'feat: add subscription frontend views'
+- Seen in commit: 'fix: wait for Auth0 before protected requests'
+- Pattern in commit prefixes
+
+---
+id: cityexpress-frontendg15-instinct-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Commit Length
+
+## Action
+
+Keep the commit message concise, around 37 characters on average
+
+## Evidence
+
+- Pattern in averageLength: 37
+- Examples of commit messages
+
+---
+id: cityexpress-frontendg15-instinct-add-feature-workflow
+trigger: "When someone wants to add a new feature that requires both frontend views and API integration"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Add Feature Workflow
+
+## Action
+
+Create or update component/page files, add or update corresponding API service file, write or update test files, and update router/navigation as needed
+
+## Evidence
+
+- Workflow: add-new-feature-with-api-and-tests
+- Pattern in files: src/components/*.jsx, src/pages/*Page.jsx, src/services/api/*Service.js, src/router/AppRouter.jsx
+
+---
+id: cityexpress-frontendg15-instinct-update-page-workflow
+trigger: "When someone wants to enhance or fix an existing page's functionality"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: vruizz22/CityExpress-frontendG15
+---
+
+# Cityexpress Frontendg15 Instinct Update Page Workflow
+
+## Action
+
+Edit the relevant page file(s) and update or add corresponding test file(s) for the page(s)
+
+## Evidence
+
+- Workflow: update-existing-page-with-tests
+- Pattern in files: src/pages/*Page.jsx, src/pages/*Page.test.jsx
+
